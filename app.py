@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 ball = pygame.image.load("intro_ball.gif")
 cloud = pygame.image.load('cloud.png')
-background = pygame.image.load('2474216.jpg').convert()
+background = pygame.image.load('back.jpg').convert()
 background = pygame.transform.scale(background, (800,600))
 spaceship = pygame.image.load('spaceship.png')
 

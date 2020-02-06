@@ -68,10 +68,8 @@ while 1:
     screen.fill(black)
     
     screen.blit(background,[0,0])
-    # screen.blit(ball, ballrect)
-
+    # screen.blit(ball, ballrect
     
-
     if bulletY > 0:
         bulletY -= 5
     #print(bulletY)

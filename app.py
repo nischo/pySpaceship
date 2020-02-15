@@ -3,49 +3,67 @@ import pygame
 
 pygame.init()
 
-
+# set the widht and height of the window
 size = width, height = 800, 600
 
 speed = [2, 2]
 black = 0, 0, 0
 
+# empty list for bullets
+bullets = []
+
+
 screen = pygame.display.set_mode(size)
 
 clock = pygame.time.Clock()
 
-
 cloud = pygame.image.load('cloud.png')
 
+#load background picture
 background = pygame.image.load('back.jpg').convert()
-background = pygame.transform.scale(background, (800, 600))
+background = pygame.transform.scale(background, size)
+
+#load monster picture 32x32
+monster = pygame.image.load('monster.png')
+
+#load SpaceShip picture 64x64
 spaceship = pygame.image.load('spaceship.png')
 
+#load bullet picture
 bullet = pygame.image.load('bullet.png')
 
 
 shipX = 360
 shipY = 530
-ship_position = [shipX, shipY]
+shipPosition = [shipX, shipY]
 
 bulletY = 526
 bulletX = 400
-bullet_position = [bulletX, bulletY]
 
-bullets = []
+
+def moveShip(pressed):
+    # Get all the keys currently pressed
+    if pressed[pygame.K_RIGHT] and shipPosition[0] < (width - 64):
+        shipPosition[0] += 10
+
+
+    if pressed[pygame.K_LEFT] and shipPosition[0] > 0:
+        shipPosition[0] -= 10
+  
+    screen.blit(spaceship, [shipPosition[0], shipPosition[1]])
 
 def bulletShoot(pressed):
 
     if pressed[pygame.K_SPACE]:
-        x = shipX
-        y = shipY
-        bullets.append([x,y])
-        pass
+        bullets.append([shipPosition[0] + 20,shipPosition[1]])
+  
 
     for b in bullets:
-        b[0][0] =2
-        b[0][1] =2
+        b[1] -=10
+        if b[1] < -5:
+          bullets.remove(b)
         screen.blit(bullet,b)
-         #screen.blit(bullet, b)
+
 
 while 1:
     clock.tick(30)
@@ -56,38 +74,17 @@ while 1:
         if event.type == pygame.QUIT:
             sys.exit()
 
-    # ballrect = ballrect.move(speed)
 
-    # if ballrect.left < 0 or ballrect.right > width:
-    #     speed[0] = -speed[0]
-    # if ballrect.top < 0 or ballrect.bottom > height:
-    #     speed[1] = -speed[1]
 
-     # Get all the keys currently pressed
-
-    if pressed[pygame.K_RIGHT]:
-        shipX += 10
-
-    if pressed[pygame.K_LEFT]:
-        shipX -= 10
-
-    ship_position = [shipX, shipY]
+    
     screen.fill(black)
 
     screen.blit(background, [0, 0])
-    # screen.blit(ball, ballrect
 
-    #if bulletY > 0:
-    #    bulletY -= 5
-    # print(bulletY)
-    #else:
-    #    bulletY = 530
-
-    #bullet_position = [bulletX, bulletY]
-
-    screen.blit(bullet, bullet_position)
-
+   
+    moveShip(pressed)
     bulletShoot(pressed)
-    #screen.blit(spaceship, ship_position)
+    screen.blit(monster, [400,80])
+    
 
     pygame.display.flip()
